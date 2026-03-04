@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 Ecoyaan Checkout Flow
 
-## Getting Started
+A premium, full-featured checkout flow built for the **Ecoyaan Frontend Engineering Interview**. This project demonstrates proficiency with **React**, **Next.js SSR (App Router)**, **state management**, **form validation**, and **responsive UI design**.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-61dafb?logo=react)
+![Deployed](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+### Core Requirements
+- **Server-Side Rendering (SSR)**: Cart data fetched server-side using Next.js App Router Server Components with `fetch()` and `cache: 'no-store'`
+- **3-Step Checkout Flow**: Cart → Shipping → Payment → Success
+- **State Management**: React Context API + `useReducer` for predictable state across steps
+- **Form Validation**: Real-time inline validation for all shipping fields
+- **Responsive Design**: Mobile-first, works beautifully from 375px to full desktop
+
+### Extra Features (Beyond Requirements)
+| Feature | Description |
+|---------|-------------|
+| 🌙 **Dark/Light Theme** | Persistent toggle with smooth CSS transitions |
+| 📍 **PIN → City Auto-fill** | Smart UX, auto-populates City & State from PIN code |
+| 🎉 **Confetti Animation** | Pure CSS confetti on order success (zero libraries) |
+| 🌍 **Eco-Impact Summary** | Shows trees saved, plastic reduced — ties into Ecoyaan's mission |
+| 💎 **Glassmorphism UI** | Modern frosted-glass cards and backdrop-filter effects |
+| 🔒 **Trust Badges** | SSL, secure payments, easy returns, eco-packaging |
+| ⚡ **Micro-animations** | Smooth transitions, hover effects, staggered loading |
+| 💳 **Payment Methods** | UPI, Card, and COD options with animated radio selection |
+| 🔄 **Processing Overlay** | Simulated payment processing with spinner |
+
+---
+
+## 🏗️ Architecture
+
+```
+app/
+├── layout.js          → Root layout (SSR metadata, CheckoutProvider, Header, Footer)
+├── page.js            → Server Component: fetches cart via SSR
+├── CartPage.js        → Client Component: multi-step flow orchestrator
+├── api/cart/route.js   → Mock API route (GET /api/cart)
+├── globals.css         → Full design system (CSS variables, animations, responsive)
+components/
+├── Header.jsx          → Logo, theme toggle, cart badge
+├── StepIndicator.jsx   → Animated 3-step progress bar
+├── CartSummary.jsx     → Product list + order summary
+├── ShippingForm.jsx    → Address form with validation + PIN auto-fill
+├── PaymentConfirm.jsx  → Payment method selection + order review
+├── OrderSuccess.jsx    → Success screen with confetti + eco-impact
+├── EcoImpact.jsx       → Sustainability metrics card
+├── TrustBadges.jsx     → Security trust indicators
+├── Confetti.jsx        → CSS-only confetti animation
+└── Footer.jsx          → Simple footer
+context/
+└── CheckoutContext.jsx → Context API + useReducer state management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Key Architectural Decisions
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **App Router over Pages Router**: Modern Next.js patterns with Server/Client component separation
+2. **Server Component for SSR**: `app/page.js` is a Server Component that fetches data at request time — the cart HTML is fully rendered server-side, verifiable in page source
+3. **Context + useReducer over Redux**: Simpler for this scope, no extra dependencies, predictable state transitions with action types
+4. **CSS Variables over Tailwind**: Full design system with custom properties, enabling seamless dark/light theme switching via `data-theme` attribute
+5. **No external animation libraries**: All animations are pure CSS — confetti, transitions, micro-interactions — keeping the bundle minimal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
+- **Node.js** 18+ 
+- **npm** 9+
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Install & Run
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/ecoyaan-checkout.git
+cd ecoyaan-checkout
 
-## Deploy on Vercel
+# Install dependencies
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Start development server
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+### Deploy to Vercel
+
+```bash
+npx vercel
+```
+
+Or connect your GitHub repo at [vercel.com/new](https://vercel.com/new) for automatic deployments.
+
+---
+
+## 🧪 Verifying SSR
+
+To confirm Server-Side Rendering is working:
+
+1. Start the dev server: `npm run dev`
+2. Open `http://localhost:3000`
+3. **View Page Source** (Ctrl+U) — you'll see the cart product data (`Bamboo Toothbrush`, `Reusable Cotton Produce Bags`) rendered in the initial HTML, confirming SSR
+
+---
+
+## 📱 Responsive Breakpoints
+
+| Breakpoint | Layout |
+|-----------|---------|
+| > 768px | Two-column: main content + sidebar |
+| ≤ 768px | Single column, stacked layout |
+| ≤ 480px | Compact card layout, optimized touch targets |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Next.js 14** (App Router, Server Components)
+- **React 19**
+- **Vanilla CSS** (Custom Properties, Keyframe Animations)
+- **Google Fonts** (Inter + Outfit)
+
+---
+
+Built with 💚 by [Your Name] for the Ecoyaan Frontend Engineering Interview

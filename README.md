@@ -9,6 +9,8 @@ A premium, full-featured checkout flow built for the **Ecoyaan Frontend Engineer
 
 🔗 **Live Demo**: [https://next-js-ecom-mu.vercel.app](https://next-js-ecom-mu.vercel.app)
 
+🔗 **JSON API**: [https://next-js-ecom-mu.vercel.app/api/cart](https://next-js-ecom-mu.vercel.app/api/cart)
+
 ---
 
 ## ✨ Features

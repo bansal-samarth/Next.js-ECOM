@@ -1,40 +1,19 @@
 import CartPage from "./CartPage";
+import { cartData } from "@/lib/mockData";
 
-// Server Component — fetches data via SSR
+// Server Component — demonstrates SSR data fetching
+// Data is fetched/resolved server-side before the page is sent to the client.
+// In a real app, this would fetch from a database or external API.
+// Using a shared data module to simulate async SSR data resolution.
+
+export const dynamic = "force-dynamic"; // Ensure SSR on every request (not statically generated)
+
 export default async function Home() {
-  // Fetch cart data server-side (SSR)
-  // Use absolute URL for API route during build, and relative for dev
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  
-  let cartData;
-  try {
-    const res = await fetch(`${baseUrl}/api/cart`, {
-      cache: "no-store", // Force SSR on every request (no static caching)
-    });
-    cartData = await res.json();
-  } catch {
-    // Fallback mock data if API fetch fails during build
-    cartData = {
-      cartItems: [
-        {
-          product_id: 101,
-          product_name: "Bamboo Toothbrush (Pack of 4)",
-          product_price: 299,
-          quantity: 2,
-          image: "/images/bamboo-toothbrush.png",
-        },
-        {
-          product_id: 102,
-          product_name: "Reusable Cotton Produce Bags",
-          product_price: 450,
-          quantity: 1,
-          image: "/images/cotton-bags.png",
-        },
-      ],
-      shipping_fee: 50,
-      discount_applied: 0,
-    };
-  }
+  // Simulate async data fetching (as if calling an external API/database)
+  const data = await new Promise((resolve) => {
+    setTimeout(() => resolve(cartData), 100);
+  });
 
-  return <CartPage cartData={cartData} />;
+  // Pass SSR-fetched data to the client component
+  return <CartPage cartData={data} />;
 }
